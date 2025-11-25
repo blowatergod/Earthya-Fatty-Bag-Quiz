@@ -2,24 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Fatty Bag’s Mini Quiz</title>
+    <!-- Tailwind CSS (CDN is fine for this setup) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
     <style>
+      html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden; /* STRICT NO SCROLL */
+        position: fixed; /* Lock body in place */
+      }
       body {
         font-family: 'Fredoka', sans-serif;
-        background-color: #ee8021; /* Fallback */
+        background-color: #000000; /* Dark background for letterboxing */
         overscroll-behavior: none;
+        margin: 0;
+        padding: 0;
+        touch-action: none; /* Disable default touch actions like pan/zoom */
       }
-      /* Hide scrollbar */
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
+      
       /* Comic Halftone Pattern */
       .bg-comic-dots {
         background-image: radial-gradient(circle, #000000 1px, transparent 1px);
@@ -95,10 +98,12 @@
   <script type="importmap">
 {
   "imports": {
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
     "canvas-confetti": "https://aistudiocdn.com/canvas-confetti@^1.9.4"
   }
 }
@@ -106,5 +111,6 @@
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

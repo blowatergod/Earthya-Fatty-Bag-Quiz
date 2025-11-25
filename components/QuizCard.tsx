@@ -114,10 +114,10 @@ const QuizCard: React.FC<Props> = ({ question, currentNumber, totalQuestions, on
   const nopeOpacity = Math.min(1, Math.max(0, -dragDelta.x / 50)); // Left (False)
 
   return (
-    <div className="w-full h-full flex flex-col px-4 items-center">
+    <div className="w-full h-full flex flex-col items-center justify-between pb-8">
       
       {/* Progress Badge */}
-      <div className="w-full max-w-md mb-4 relative z-20 flex justify-center">
+      <div className="w-full max-w-md mb-2 relative z-20 flex justify-center flex-shrink-0 pt-6">
         <div className="bg-[#198b81] text-white px-4 py-1 rounded-full border-2 border-black shadow-comic-sm transform -rotate-1">
             <span className="font-black text-sm tracking-widest uppercase">
               {ui.progress} {currentNumber} / {totalQuestions}
@@ -125,8 +125,8 @@ const QuizCard: React.FC<Props> = ({ question, currentNumber, totalQuestions, on
         </div>
       </div>
 
-      {/* CARD AREA */}
-      <div className="flex-1 w-full relative flex items-center justify-center min-h-[360px] mb-4 z-0 perspective-1000">
+      {/* CARD AREA - Flexible Height */}
+      <div className="flex-1 w-full relative flex items-center justify-center min-h-0 z-0 perspective-1000 py-4">
         
         {/* Background Icons (Guides) */}
         {!hasAnswered && (
@@ -148,21 +148,21 @@ const QuizCard: React.FC<Props> = ({ question, currentNumber, totalQuestions, on
 
         {/* FEEDBACK CARD (Shown after answer) */}
         {hasAnswered && (
-          <div className="absolute w-[280px] min-h-[400px] bg-white rounded-2xl border-4 border-black shadow-comic-lg z-30 flex flex-col animate-pop">
+          <div className="absolute w-[85%] max-w-[300px] h-auto max-h-[60vh] aspect-[3/4] bg-white rounded-2xl border-4 border-black shadow-comic-lg z-30 flex flex-col animate-pop">
              {/* Header Status */}
-             <div className={`w-full py-4 text-center border-b-4 border-black ${userIsCorrect ? 'bg-[#198b81] text-white' : 'bg-[#ee8021] text-white'}`}>
-                <h3 className="text-2xl font-black uppercase tracking-wider">
+             <div className={`w-full py-3 text-center border-b-4 border-black ${userIsCorrect ? 'bg-[#198b81] text-white' : 'bg-[#ee8021] text-white'} flex-shrink-0`}>
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider">
                   {userIsCorrect ? 'CORRECT!' : 'WRONG!'}
                 </h3>
              </div>
 
-             <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-                <p className="text-xl md:text-2xl font-bold text-black leading-tight">
+             <div className="flex-1 flex flex-col items-center justify-center p-4 text-center overflow-hidden">
+                <p className="text-lg md:text-xl font-bold text-black leading-tight overflow-y-auto max-h-full">
                   {question.feedback}
                 </p>
              </div>
 
-             <div className="p-4">
+             <div className="p-3 flex-shrink-0">
                 <button 
                   onClick={handleNext}
                   className="w-full py-3 bg-black text-white rounded-xl font-black text-lg flex items-center justify-center gap-2 hover:bg-gray-800 active:scale-95 transition-transform"
@@ -177,7 +177,7 @@ const QuizCard: React.FC<Props> = ({ question, currentNumber, totalQuestions, on
         {!hasAnswered && (
           <div 
             ref={cardRef}
-            className={`absolute w-[280px] min-h-[400px] bg-white rounded-2xl border-4 border-black shadow-comic-lg cursor-grab active:cursor-grabbing z-20 flex flex-col items-center p-6 text-center select-none touch-none`}
+            className={`absolute w-[85%] max-w-[300px] h-auto aspect-[3/4] max-h-[60vh] bg-white rounded-2xl border-4 border-black shadow-comic-lg cursor-grab active:cursor-grabbing z-20 flex flex-col items-center p-6 text-center select-none touch-none`}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
@@ -199,13 +199,13 @@ const QuizCard: React.FC<Props> = ({ question, currentNumber, totalQuestions, on
               {ui.falseBtn}
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center w-full gap-4">
-              <span className="text-2xl md:text-3xl font-black text-black leading-tight break-words drop-shadow-sm">
+            <div className="flex-1 flex flex-col items-center justify-center w-full gap-2 overflow-hidden">
+              <span className="text-xl md:text-3xl font-black text-black leading-tight break-words drop-shadow-sm">
                 {question.statement}
               </span>
             </div>
             
-            <div className="mt-4 pt-4 border-t-2 border-dashed border-gray-200 w-full text-center">
+            <div className="mt-4 pt-4 border-t-2 border-dashed border-gray-200 w-full text-center flex-shrink-0">
               <div className="text-gray-400 text-[10px] font-bold uppercase tracking-widest pointer-events-none flex justify-between px-2">
                  <span>&larr; {ui.falseBtn}</span>
                  <span>{ui.trueBtn} &rarr;</span>
@@ -238,15 +238,15 @@ const QuizCard: React.FC<Props> = ({ question, currentNumber, totalQuestions, on
       )}
       
       {hasAnswered && (
-        <div className="h-16 mb-2"></div> /* Spacer to keep layout stable */
+        <div className="h-16 mb-2 flex-shrink-0"></div> /* Spacer to keep layout stable */
       )}
 
       {/* Logo Footer */}
-      <div className="mt-4 mb-4 flex justify-center items-center flex-shrink-0 z-30">
+      <div className="mt-2 mb-2 flex justify-center items-center flex-shrink-0 z-30 opacity-90">
          <img 
            src={LOGO_URL} 
            alt="Earthya Logo" 
-           className="h-6 w-auto object-contain opacity-90"
+           className="h-6 w-auto object-contain"
          />
       </div>
     </div>

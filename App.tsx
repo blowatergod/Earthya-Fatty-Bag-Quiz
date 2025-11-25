@@ -39,29 +39,32 @@ const App: React.FC = () => {
   };
 
   return (
-    // Outer container: Full screen, centered with Dynamic Gradient
-    <div className="min-h-[100dvh] w-full bg-brand-gradient flex items-center justify-center font-sans overflow-hidden relative">
+    // Outer container: Locks the viewport
+    <div className="fixed inset-0 w-full h-[100dvh] bg-black flex items-center justify-center font-sans overflow-hidden">
        
-       {/* Background Pattern Overlay */}
-       <div className="absolute inset-0 bg-comic-dots pointer-events-none mix-blend-overlay opacity-30"></div>
-       
-       {/* Dynamic Floating Shapes (Decorations) */}
-       <div className="absolute top-10 left-10 w-24 h-24 bg-white opacity-10 rounded-full animate-float pointer-events-none blur-xl"></div>
-       <div className="absolute bottom-20 right-10 w-32 h-32 bg-[#ee8021] opacity-20 rounded-full animate-float-delayed pointer-events-none blur-2xl"></div>
-       <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-[#198b81] opacity-20 rounded-full animate-float pointer-events-none blur-lg"></div>
+       {/* Background for the empty space (Letterboxing) */}
+       <div className="absolute inset-0 bg-brand-gradient opacity-60 blur-xl"></div>
+       <div className="absolute inset-0 bg-comic-dots opacity-20 pointer-events-none"></div>
 
-      {/* Mobile Frame / Container */}
-      <div className="relative w-full h-[100dvh] md:max-w-[400px] md:h-[800px] md:max-h-[90vh] bg-[#fdfdfd] md:rounded-3xl border-0 md:border-4 md:border-black shadow-none md:shadow-comic-lg overflow-hidden flex flex-col z-10">
+      {/* STRICT 9:16 CONTAINER 
+          This logic ensures the app is ALWAYS 9:16. 
+          If the screen is too tall, it leaves gaps top/bottom.
+          If the screen is too wide, it leaves gaps left/right.
+      */}
+      <div 
+        className="relative w-auto h-auto max-w-full max-h-full aspect-[9/16] shadow-2xl overflow-hidden flex flex-col z-10 bg-[#fffdf5]"
+        style={{
+          // Fallback for browsers that struggle with aspect-ratio + max-height combos
+          height: 'min(100dvh, 177.78vw)', 
+          width: 'min(100vw, 56.25dvh)' 
+        }}
+      >
         
-        {/* Top Bar Decoration (Desktop Only) */}
-        <div className="hidden md:flex absolute top-0 left-0 w-full h-8 bg-white z-50 border-b-2 border-black items-center justify-center">
-           <div className="w-16 h-3 bg-black rounded-full"></div>
-        </div>
-
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto no-scrollbar relative bg-[#fffdf5]">
+        <div className="flex-1 w-full h-full overflow-hidden relative flex flex-col">
           
-          <div className="min-h-full p-6 pt-12 pb-20 flex flex-col">
+          {/* Main Content Container with safe area padding */}
+          <div className="flex-1 w-full h-full p-4 pb-12 flex flex-col justify-between">
             {/* Step 1: Language Selection */}
             {!language && (
               <LanguageSelector onSelect={handleLanguageSelect} />
@@ -90,8 +93,8 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer Branding */}
-        <div className="absolute bottom-0 left-0 w-full bg-black text-white py-2 text-center z-10 border-t-2 border-black">
+        {/* Footer Branding - Fixed at bottom of the 9:16 container */}
+        <div className="absolute bottom-0 left-0 w-full bg-black text-white py-2 text-center z-50 border-t-2 border-black pointer-events-none">
           <p className="text-[10px] font-black tracking-[0.2em] uppercase">Powered by Earthya</p>
         </div>
       </div>
